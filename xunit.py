@@ -3,6 +3,8 @@ class TestCase:
         self.name = name
     def setUp(self):
         pass
+    def tearDown(self):
+        pass
     def run(self):
         self.setUp()
         # テストケース名を示す属性を問い合わせて、
@@ -18,7 +20,7 @@ class WasRun(TestCase):
     def testMethod(self):
         self.log = self.log + 'testMethod '
     def tearDown(self):
-        self.log = 'tearDown '
+        self.log = self.log + 'tearDown '
 
 class TestCaseTest(TestCase):
     def testTemplateMethod(self):

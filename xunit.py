@@ -1,7 +1,10 @@
 class TestCase:
     def __init__(self, name):
         self.name = name
+    def setUp(self):
+        pass
     def run(self):
+        self.setUp()
         # テストケース名を示す属性を問い合わせて、
         # 返却されたオブジェクトを関数的に呼び出す。
         # Plaggable Selectorパターン
@@ -12,6 +15,8 @@ class WasRun(TestCase):
     def __init__(self, name):
         self.wasRun = None
         super().__init__(name)
+    def setUp(self):
+        self.wasSetUp = 1
     def testMethod(self):
         self.wasRun = 1
 
@@ -21,5 +26,10 @@ class TestCaseTest(TestCase):
         assert(not test.wasRun)
         test.run()
         assert(test.wasRun)
+    def testSetUp(self):
+        test = WasRun('setUp')
+        test.run()
+        assert(test.wasSetUp)
 
 TestCaseTest('testRunning').run()
+TestCaseTest('testSetUp').run()

@@ -10,17 +10,20 @@ class TestCase:
         # Plaggable Selectorパターン
         method = getattr(self, self.name)
         method()
+        self.tearDown()
 
 class WasRun(TestCase):
     def setUp(self):
         self.log = 'setUp '
     def testMethod(self):
         self.log = self.log + 'testMethod '
+    def tearDown(self):
+        self.log = 'tearDown '
 
 class TestCaseTest(TestCase):
     def testTemplateMethod(self):
         test = WasRun('testMethod')
         test.run()
-        assert("setUp testMethod " == test.log)
+        assert("setUp testMethod tearDown " == test.log)
 
 TestCaseTest('testTemplateMethod').run()

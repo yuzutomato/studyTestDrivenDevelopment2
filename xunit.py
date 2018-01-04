@@ -6,6 +6,8 @@ class TestCase:
     def tearDown(self):
         pass
     def run(self):
+        result = TestResult()
+        result.testStarted()
         self.setUp()
         # テストケース名を示す属性を問い合わせて、
         # 返却されたオブジェクトを関数的に呼び出す。
@@ -13,7 +15,7 @@ class TestCase:
         method = getattr(self, self.name)
         method()
         self.tearDown()
-        return TestResult()
+        return result
 
 class WasRun(TestCase):
     def setUp(self):
@@ -35,7 +37,9 @@ class TestCaseTest(TestCase):
 
 class TestResult:
     def __init__(self):
-        self.runCount = 1
+        self.runCount = 0
+    def testStarted(self):
+        self.runCount = self.runCount + 1
     def summary(self):
         return '%d run, 0 failed' % self.runCount
 

@@ -48,7 +48,15 @@ class TestCaseTest(TestCase):
         test = WasRun('testBrokenMethod')
         result = test.run()
         assert result.summary() == '1 run, 1 failed'
+    # テストが失敗したも期待した内容が出力されるか確かめる。
+    # TestResultに対するテストであることに注意する。
+    def testFailedResultFormatting(self):
+        result = TestResult()
+        result.testStarted()
+        result.testFailed()
+        assert result.summary() == '1 run, 1 failed'
 
 TestCaseTest('testTemplateMethod').run()
 TestCaseTest('testResult').run()
 # TestCaseTest('testFailedResult').run()
+TestCaseTest('testFailedResultFormatting').run()

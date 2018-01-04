@@ -9,11 +9,14 @@ class TestCase:
         result = TestResult()
         result.testStarted()
         self.setUp()
-        # テストケース名を示す属性を問い合わせて、
-        # 返却されたオブジェクトを関数的に呼び出す。
-        # Plaggable Selectorパターン
-        method = getattr(self, self.name)
-        method()
+        try:
+            # テストケース名を示す属性を問い合わせて、
+            # 返却されたオブジェクトを関数的に呼び出す。
+            # Plaggable Selectorパターン
+            method = getattr(self, self.name)
+            method()
+        except:
+            result.testFailed()
         self.tearDown()
         return result
 
@@ -59,7 +62,7 @@ class TestCaseTest(TestCase):
         result.testFailed()
         assert result.summary() == '1 run, 1 failed'
 
-TestCaseTest('testTemplateMethod').run()
-TestCaseTest('testResult').run()
-# TestCaseTest('testFailedResult').run()
-TestCaseTest('testFailedResultFormatting').run()
+print(TestCaseTest('testTemplateMethod').run().summary())
+print(TestCaseTest('testResult').run().summary())
+print(TestCaseTest('testFailedResult').run().summary())
+print(TestCaseTest('testFailedResultFormatting').run().summary())

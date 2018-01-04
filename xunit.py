@@ -5,8 +5,7 @@ class TestCase:
         pass
     def tearDown(self):
         pass
-    def run(self):
-        result = TestResult()
+    def run(self, result):
         result.testStarted()
         self.setUp()
         try:
@@ -18,7 +17,6 @@ class TestCase:
         except:
             result.testFailed()
         self.tearDown()
-        return result
 
 class WasRun(TestCase):
     def setUp(self):
@@ -46,11 +44,9 @@ class TestSuite:
         self.tests = []
     def add(self, test):
         self.tests.append(test)
-    def run(self):
-        result = TestResult()
+    def run(self, result):
         for test in self.tests:
             test.run(result)
-        return result
 
 class TestCaseTest(TestCase):
     def testTemplateMethod(self):
@@ -76,7 +72,10 @@ class TestCaseTest(TestCase):
         suite = TestSuite()
         suite.add(WasRun('testMethod'))
         suite.add(WasRun('testBrokenMethod'))
-        result = suite.run()
+        # テストの呼び出し型でTestResultを作成する
+        # Collecting Parameterパターン
+        result = TestResult()
+        suite.run(result)
         assert result.summary() == '2 run, 1 failed'
 
 print(TestCaseTest('testTemplateMethod').run().summary())

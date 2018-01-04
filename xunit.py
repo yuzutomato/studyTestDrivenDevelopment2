@@ -51,15 +51,18 @@ class TestSuite:
 class TestCaseTest(TestCase):
     def testTemplateMethod(self):
         test = WasRun('testMethod')
-        test.run()
+        result = TestResult()
+        test.run(result)
         assert test.log == 'setUp testMethod tearDown '
     def testResult(self):
         test = WasRun('testMethod')
-        result = test.run()
+        result = TestResult()
+        test.run(result)
         assert result.summary() == '1 run, 0 failed'
     def testFailedResult(self):
         test = WasRun('testBrokenMethod')
-        result = test.run()
+        result = TestResult()
+        test.run(result)
         assert result.summary() == '1 run, 1 failed'
     # テストが失敗したも期待した内容が出力されるか確かめる。
     # TestResultに対するテストであることに注意する。
